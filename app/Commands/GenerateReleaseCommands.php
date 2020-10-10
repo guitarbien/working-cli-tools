@@ -2,8 +2,8 @@
 
 namespace App\Commands;
 
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Http;
+use App\Github\Exception;
+use App\Github\Github;
 use LaravelZero\Framework\Commands\Command;
 
 /**
@@ -28,108 +28,17 @@ class GenerateReleaseCommands extends Command
      */
     protected $description = 'generate a new release note from cards in github projects';
 
-    private $header;
-
-    private const GITHUB_HOST = 'https://api.github.com';
-
     /**
-     * GenerateReleaseCommands constructor.
+     * @param  Github  $github
      */
-    public function __construct()
+    public function handle(Github $github): void
     {
-        parent::__construct();
-
-        $this->header = [
-            'Authorization' => 'token ' . env('GITHUB_ACCESS_TOKEN'),
-            'Accept' => 'application/vnd.github.inertia-preview+json',
-        ];
-    }
-
-    public function handle(): void
-    {
-        // get project info
-        $projectResponse = $this->getFromGithub($this->getRepoEndpoint('projects'), [
-            'state' => 'open',
-        ]);
-
-        // get column info
-        $columnsResponse = $this->getFromGithub($projectResponse->json('0.columns_url'));
-
-        $targetColumn = collect($columnsResponse->json())->filter(function ($item) {
-            return $item['name'] === config('github.project_release_column');
-        })->first();
-
-        // get card info
-        $cardsResponse = $this->getFromGithub($targetColumn['cards_url'], [
-            'archived_state' => 'not_archived',
-        ]);
-
-        $targetIssues = collect($cardsResponse->json())->filter(function ($item) {
-            return isset($item['content_url']);
-        })->map(function ($item) {
-            return last(explode('/', $item['content_url']));
-        })->all();
-
-        // get all issues' name
-        $allRepoIssues = $this->getFromGithub($this->getRepoEndpoint('issues'), [
-            'state' => 'closed',
-        ])->json();
-
-        $releaseNotes = collect($allRepoIssues)->filter(function ($item) use ($targetIssues) {
-            return in_array($item['number'], $targetIssues);
-        })->reduce(function ($carry, $item) {
-            return $carry . vsprintf('- %s #%d' . PHP_EOL, [
-                $item['title'],
-                $item['number'],
-            ]);
-        }, '');
-
-        // create a new release note
-        $result = $this->postToGithub($this->getRepoEndpoint('releases'), [
-            'tag_name' => $this->argument('tag'),
-            'target_commitish' => $this->argument('branch'),
-            'name' => 'regular release',
-            'body' => $releaseNotes,
-            'draft' => true,
-            'prerelease' => true,
-        ]);
-
-        if ($result->status() !== \Symfony\Component\HttpFoundation\Response::HTTP_CREATED) {
+        try {
+            $github->createRelease($this->argument('tag'), $this->argument('branch'));
+        } catch (Exception $e) {
             $this->info('create release fail');
         }
 
-        $this->info($this->argument('tag') . ' draft release was created:' . PHP_EOL . $releaseNotes);
-    }
-
-    /**
-     * @param  string  $resource
-     * @return string
-     */
-    private function getRepoEndpoint(string $resource): string
-    {
-        return vsprintf(self::GITHUB_HOST . '/repos/%s/%s/' . $resource, [
-            config('github.owner'),
-            config('github.repo'),
-        ]);
-    }
-
-    /**
-     * @param  string  $uri
-     * @param  array  $query
-     * @return Response
-     */
-    private function getFromGithub(string $uri, array $query = []): Response
-    {
-        return Http::withHeaders($this->header)->get($uri, $query);
-    }
-
-    /**
-     * @param  string  $uri
-     * @param  array  $body
-     * @return Response
-     */
-    private function postToGithub(string $uri, array $body): Response
-    {
-        return Http::withHeaders($this->header)->post($uri, $body);
+        $this->info('draft release was created with tag ' . $this->argument('tag'));
     }
 }
