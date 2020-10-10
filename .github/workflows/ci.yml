@@ -13,7 +13,6 @@ on:
 
 jobs:
   testing:
-    if: ${{ github.repository == 'kkday-it/kkday-product-service' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
