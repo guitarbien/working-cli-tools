@@ -7,17 +7,17 @@ use App\Github\Github;
 use LaravelZero\Framework\Commands\Command;
 
 /**
- * Class GenerateReleaseCommands
+ * Class GenerateReleaseCommand
  * @package App\Commands
  */
-class GenerateReleaseCommands extends Command
+class GenerateReleaseCommand extends Command
 {
     /**
      * The signature of the command.
      *
      * @var string
      */
-    protected $signature = 'release:note
+    protected $signature = 'releasing
                             {branch : the branch name which tag will set}
                             {tag    : tag name, just like v1.0.0}';
 

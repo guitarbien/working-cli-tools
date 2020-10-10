@@ -6,7 +6,7 @@ namespace App\Github;
  * Class Release
  * @package App\Github
  */
-final class Release
+class Release
 {
     /** @var string */
     private $tagName;

@@ -6,7 +6,7 @@ namespace App\Github;
  * Class Github
  * @package App\Github
  */
-final class Github
+class Github
 {
     /** @var Repository */
     private $repo;

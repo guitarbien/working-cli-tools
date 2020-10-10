@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
  * Class Repository
  * @package App\Github
  */
-final class Repository
+class Repository
 {
     private $header;
 

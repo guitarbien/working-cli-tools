@@ -6,7 +6,7 @@ namespace App\Github;
  * Class Exception
  * @package App\Github
  */
-final class Exception extends \Exception
+class Exception extends \Exception
 {
     /**
      * @return static
