@@ -20,6 +20,7 @@ class RepositoryTest extends TestCase
         // arrange
         Config::set('github.owner', 'abc');
         Config::set('github.repo', 'def');
+        Config::set('github.project_release_column', 'Done');
 
         Http::fake([
             'api.github.com/repos/abc/def/releases' => Http::response(null, 201),
@@ -87,7 +88,7 @@ class RepositoryTest extends TestCase
                                     ->push([['columns_url' => 'https://api.github.com/projects/1002604/columns']], 200)
                                     ->push([['name' => 'Done', 'cards_url' => 'https://api.github.com/projects/columns/367/cards']], 200)
                                     ->push([['content_url' => 'https://api.github.com/repos/abc/def/issues/3']], 200)
-                                    ->push([['title' => 'testing', 'number' => 3]], 200)
+                                    ->push(['title' => 'testing', 'number' => 3], 200)
         ]);
 
         $repo = new Repository();

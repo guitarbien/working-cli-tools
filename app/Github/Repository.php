@@ -46,24 +46,16 @@ class Repository
             'archived_state' => 'not_archived',
         ]);
 
-        $targetIssues = collect($cardsResponse->json())->filter(function ($item) {
+        return collect($cardsResponse->json())->filter(function ($item) {
             return isset($item['content_url']);
         })->map(function ($item) {
-            return last(explode('/', $item['content_url']));
-        })->all();
-
-        // get all issues' name
-        $allRepoIssues = $this->getFromGithub($this->getRepoEndpoint('issues'), [
-            'state' => 'closed',
-        ])->json();
-
-        return collect($allRepoIssues)->filter(function ($item) use ($targetIssues) {
-            return in_array($item['number'], $targetIssues);
+            // get issues' info
+            return $this->getFromGithub($item['content_url'])->json();
         })->reduce(function ($carry, $item) {
             return $carry . vsprintf('- %s #%d' . PHP_EOL, [
-                $item['title'],
-                $item['number'],
-            ]);
+                    $item['title'],
+                    $item['number'],
+                ]);
         }, '');
     }
 
