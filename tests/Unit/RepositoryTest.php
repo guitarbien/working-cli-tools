@@ -82,6 +82,7 @@ class RepositoryTest extends TestCase
         // arrange
         Config::set('github.owner', 'abc');
         Config::set('github.repo', 'def');
+        Config::set('github.project_release_column', 'Done');
 
         Http::fake([
             'api.github.com/*' => Http::sequence()
