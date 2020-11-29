@@ -95,7 +95,7 @@ class RepositoryTest extends TestCase
         $repo = new Repository();
 
         // act
-        $noteBody = $repo->getNote();
+        $noteBody = $repo->getNote('Done');
 
         // assert
         $this->assertEquals('- testing #3' . PHP_EOL, $noteBody);
