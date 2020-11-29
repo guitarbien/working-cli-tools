@@ -55,4 +55,4 @@ jobs:
           php -r "file_exists('.env.example') || copy('.env.example', '.env.testing');"
 
       - name: Execute tests
-        run: php application test
+        run: ./vendor/bin/phpunit
