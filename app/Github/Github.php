@@ -23,20 +23,20 @@ class Github
     /**
      * @param  string  $tag
      * @param  string  $branch
+     * @param  string  $projectColumn
      * @throws Exception
      */
-    public function createRelease(string $tag, string $branch): void
+    public function createRelease(string $tag, string $branch, string $projectColumn): void
     {
         $releaseNote = new Release(
             $tag,
             $branch,
             'regular release',
-            $this->repo->getNote(),
+            $this->repo->getNote($projectColumn),
             true,
             true,
         );
 
         $this->repo->postToGithub($releaseNote);
     }
-
 }
