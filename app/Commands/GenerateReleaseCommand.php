@@ -18,8 +18,9 @@ class GenerateReleaseCommand extends Command
      * @var string
      */
     protected $signature = 'releasing
-                            {branch : the branch name which tag will set}
-                            {tag    : tag name, just like v1.0.0}';
+                            {branch        : the branch name which the tag will set}
+                            {projectColumn : the project column name which matched by the branch}
+                            {tag           : tag name, just like v1.0.0}';
 
     /**
      * The description of the command.
@@ -34,7 +35,7 @@ class GenerateReleaseCommand extends Command
     public function handle(Github $github): void
     {
         try {
-            $github->createRelease($this->argument('tag'), $this->argument('branch'));
+            $github->createRelease($this->argument('tag'), $this->argument('branch'), $this->argument('projectColumn'));
         } catch (Exception $e) {
             $this->info('create release fail');
         }
