@@ -23,7 +23,7 @@ class GithubTest extends TestCase
         $github = new Github($repo);
 
         // act
-        $github->createRelease('v1.0.0', 'master');
+        $github->createRelease('v1.0.0', 'master', 'Done');
 
         // assert
         $repo->shouldHaveReceived('getNote');
