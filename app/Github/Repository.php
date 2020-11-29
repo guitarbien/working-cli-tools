@@ -25,9 +25,10 @@ class Repository
     }
 
     /**
+     * @param  string  $projectColumn
      * @return string
      */
-    public function getNote(): string
+    public function getNote(string $projectColumn): string
     {
         // get project info
         $projectResponse = $this->getFromGithub($this->getRepoEndpoint('projects'), [
@@ -37,8 +38,8 @@ class Repository
         // get column info
         $columnsResponse = $this->getFromGithub($projectResponse->json('0.columns_url'));
 
-        $targetColumn = collect($columnsResponse->json())->filter(function ($item) {
-            return $item['name'] === config('github.project_release_column');
+        $targetColumn = collect($columnsResponse->json())->filter(function ($item) use ($projectColumn) {
+            return $item['name'] === $projectColumn;
         })->first();
 
         // get card info
