@@ -18,7 +18,7 @@ class GenerateReleaseCommandTest extends TestCase
             $mock->shouldReceive('createRelease');
         });
 
-        $this->artisan('releasing master v1.0.0')
+        $this->artisan('releasing master stage v1.0.0')
              ->expectsOutput('draft release was created with tag v1.0.0')
              ->assertExitCode(0);
     }
@@ -30,7 +30,7 @@ class GenerateReleaseCommandTest extends TestCase
                  ->andThrow(Exception::class);
         });
 
-        $this->artisan('releasing master v1.0.0')
+        $this->artisan('releasing master stage v1.0.0')
              ->expectsOutput('draft release was created with tag v1.0.0')
              ->assertExitCode(0);
     }
