@@ -8,13 +8,6 @@ on:
     branches:
       - master
   workflow_dispatch:
-    inputs:
-      ProjectsColumnName:
-        description: 'Projects Column Name'
-        required: true
-      tag:
-        description: 'The tag you want to use in this release'
-        required: true
   schedule:
     - cron: '0 8 * * *'
 
