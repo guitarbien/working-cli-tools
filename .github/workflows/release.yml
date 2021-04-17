@@ -1,4 +1,12 @@
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      ProjectsColumnName:
+        description: 'Projects Column Name'
+        required: true
+      tag:
+        description: 'The tag you want to use in this release'
+        required: true
 
 jobs:
   hello_world_job:
