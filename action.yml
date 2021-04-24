@@ -2,10 +2,12 @@
 name: 'draft release note'
 description: 'Create a draft release note from a github repo project'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  project-column-name:  # id of input
+    description: 'the column name in the github projects, e.g. stage'
     required: true
-    default: 'World'
+  release-tag:  # id of input
+    description: 'the git tag for the draft release, e.g. v1.0.0'
+    required: true
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -13,4 +15,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.project-column-name }}
+    - ${{ inputs.release-tag }}
