@@ -34,8 +34,6 @@ class GenerateReleaseCommand extends Command
      */
     public function handle(Github $github): void
     {
-        dump($this->arguments());
-        return;
         try {
             $github->createRelease($this->argument('tag'), $this->argument('branch'), $this->argument('projectColumn'));
         } catch (Exception $e) {
