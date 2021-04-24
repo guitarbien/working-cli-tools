@@ -1,7 +1,8 @@
 #!/bin/sh -l
 
-echo "Hello $1 $2"
-php application releasing master "$1" "$2" "$3"
+echo "Hello $1 $2 $3"
+ls -al
+#php application releasing master "$1" "$2" "$3"
 
 #time=$(date)
 #echo "::set-output name=time::$time"
