@@ -39,7 +39,7 @@ RUN php -r "file_exists('.env') || copy('.env.example', '.env');"
 #RUN php artisan key:generate
 
 # 複製程式碼
-COPY . .
+#COPY . .
 #RUN composer run post-autoload-dump
 
 #CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
