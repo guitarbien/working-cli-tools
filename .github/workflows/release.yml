@@ -22,7 +22,7 @@ jobs:
         id: hello
         with:
           project-column-name: ${{ github.event.inputs.ProjectsColumnName }}
-          releast-tag: ${{ github.event.inputs.Tag }}
+          release-tag: ${{ github.event.inputs.Tag }}
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
