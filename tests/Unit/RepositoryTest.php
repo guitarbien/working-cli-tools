@@ -18,8 +18,7 @@ class RepositoryTest extends TestCase
     public function testPostToGithubSuccess()
     {
         // arrange
-        Config::set('github.owner', 'abc');
-        Config::set('github.repo', 'def');
+        Config::set('github.repo', 'abc/def');
         Config::set('github.project_release_column', 'Done');
 
         Http::fake([
@@ -53,8 +52,7 @@ class RepositoryTest extends TestCase
     public function testPostToGithubFailure()
     {
         // arrange
-        Config::set('github.owner', 'abc');
-        Config::set('github.repo', 'def');
+        Config::set('github.repo', 'abc/def');
 
         Http::fake([
             'api.github.com/repos/abc/def/releases' => Http::response(null, 403),
@@ -80,8 +78,7 @@ class RepositoryTest extends TestCase
     public function testGetNote()
     {
         // arrange
-        Config::set('github.owner', 'abc');
-        Config::set('github.repo', 'def');
+        Config::set('github.repo', 'abc/def');
         Config::set('github.project_release_column', 'Done');
 
         Http::fake([

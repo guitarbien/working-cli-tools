@@ -1,6 +1,5 @@
 <?php
 
 return [
-    'owner' => env('GITHUB_OWNER', 'guitarbien'),
-    'repo' => env('GITHUB_REPO', 'learn-go-with-tests'),
+    'repo' => env('GITHUB_REPO', 'guitarbien/learn-go-with-tests'),
 ];

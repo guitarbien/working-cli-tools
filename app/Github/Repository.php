@@ -81,8 +81,7 @@ class Repository
      */
     private function getRepoEndpoint(string $resource): string
     {
-        return vsprintf('https://api.github.com/repos/%s/%s/'.$resource, [
-            config('github.owner'),
+        return vsprintf('https://api.github.com/repos/%s/' . $resource, [
             config('github.repo'),
         ]);
     }
