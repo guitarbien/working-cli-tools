@@ -33,11 +33,11 @@ RUN set -xe && \
 # 安裝程式依賴套件
 COPY . .
 #COPY composer.* ./
-RUN composer install --no-dev --no-scripts && composer clear-cache
+RUN composer install --no-dev --no-scripts && composer clear-cache && ls -al
 
 # laravel 相關基礎設定
-RUN php -r "file_exists('.env') || copy('.env.example', '.env');" && \
-    php artisan key:generate
+RUN php -r "file_exists('.env') || copy('.env.example', '.env');"
+RUN php artisan key:generate
 
 # 複製程式碼
 #COPY . .
