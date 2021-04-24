@@ -1,7 +1,7 @@
 FROM php:7.3-alpine
 
 # 全域設定
-WORKDIR /source
+#WORKDIR /source
 
 # 安裝環境
 RUN apk add --no-cache unzip
