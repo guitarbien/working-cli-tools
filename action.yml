@@ -2,6 +2,9 @@
 name: 'draft release note'
 description: 'Create a draft release note from a github repo project'
 inputs:
+  branch-name:  # id of input
+    description: 'branch name in the repo, e.g. feature/new-login-page'
+    required: true
   project-column-name:  # id of input
     description: 'the column name in the github projects, e.g. stage'
     required: true
