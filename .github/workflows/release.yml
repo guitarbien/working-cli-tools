@@ -17,6 +17,12 @@ jobs:
       # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Generate key
+        run: php artisan key:generate
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -29,5 +35,5 @@ jobs:
           project-column-name: ${{ github.event.inputs.ProjectsColumnName }}
           release-tag: ${{ github.event.inputs.Tag }}
       # Use the output from the `step_release` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.step_release.outputs.tag }}"
+      - name: Get the output tag
+        run: echo "The tag was ${{ steps.step_release.outputs.tag }}"
