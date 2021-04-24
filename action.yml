@@ -1,6 +1,6 @@
 # action.yml
 name: 'draft release note'
-description: 'Create a draft release note from a github repo projects'
+description: 'Create a draft release note from a github repo project'
 inputs:
   who-to-greet:  # id of input
     description: 'Who to greet'

@@ -2,10 +2,10 @@ on:
   workflow_dispatch:
     inputs:
       ProjectsColumnName:
-        description: 'Projects Column Name'
+        description: 'target column name in github projects (e.g. stage)'
         required: true
       Tag:
-        description: 'The tag you want to use in this release'
+        description: 'the tag you want to use in this release (e.g. v1.0.0)'
         required: true
 
 jobs:
