@@ -1,6 +1,7 @@
 #!/bin/sh -l
 
-php application releasing "$1" "$2" "$3"
+ls -al
+#php application releasing "$1" "$2" "$3"
 
 #time=$(date)
 #echo "::set-output name=time::$time"
