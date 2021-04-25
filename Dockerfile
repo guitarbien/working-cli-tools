@@ -43,7 +43,7 @@ RUN composer install --no-dev --no-scripts && composer clear-cache
 #-----------------------------------
 FROM base
 
-COPY --from=composer_builder vendor ./vendor
+COPY --from=composer_builder /vendor ./vendor
 COPY . .
 #CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
 
