@@ -1,7 +1,8 @@
-FROM php:7.3-alpine
+#-----------------------------------
+FROM php:7.3-alpine AS base
 
 # 全域設定
-#WORKDIR /source
+WORKDIR /source
 
 # 安裝環境
 RUN apk add --no-cache unzip
@@ -26,27 +27,25 @@ RUN set -xe && \
         && \
             php -m
 
-RUN set -xe && \
-        curl -sS https://getcomposer.org/installer | php && \
-        mv composer.phar /usr/local/bin/composer
+#-----------------------------------
+FROM base AS composer_builder
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # 安裝程式依賴套件
+COPY composer.* ./
+RUN composer install --no-dev --no-scripts && composer clear-cache
+
+## laravel 相關基礎設定
+#RUN php -r "file_exists('.env') || copy('.env.example', '.env');"
+#RUN php artisan key:generate
+
+#-----------------------------------
+FROM base
+
+COPY --from=composer_builder /source/vendor ./vendor
 COPY . .
-#COPY composer.* ./
-RUN composer install --no-dev --no-scripts && composer clear-cache && ls -al
-
-# laravel 相關基礎設定
-RUN php -r "file_exists('.env') || copy('.env.example', '.env');"
-RUN php artisan key:generate
-
-# 複製程式碼
-#COPY . .
-#RUN composer run post-autoload-dump
-
 #CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
 
-# Copies your code file from your action repository to the filesystem path `/` of the container
-#COPY entrypoint.sh /entrypoint.sh
-
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/source/entrypoint.sh"]
