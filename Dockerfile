@@ -2,7 +2,7 @@
 FROM php:7.3-alpine AS base
 
 # 全域設定
-WORKDIR /source
+#WORKDIR /source
 
 # 安裝環境
 RUN apk add --no-cache unzip
@@ -48,4 +48,4 @@ COPY . .
 #CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/source/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

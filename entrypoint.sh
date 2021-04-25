@@ -1,7 +1,5 @@
 #!/bin/sh -l
 
-pwd
-ls
 php application releasing "$1" "$2" "$3"
 
 #time=$(date)
